@@ -1,5 +1,6 @@
 use tch::{Tensor};
 use rustml::*;
+use std::collections::HashMap;
 
 struct MyModel {
     l1: Conv2d,
@@ -43,8 +44,8 @@ fn main() {
     x = x.view([-1, 1, 28, 28]);
  
     let mut m = Memory::new();
-    let mymodel = MyModel::new(&mut m);    
-    train(&mut m, &x, &y, &mymodel, 20, 128, cross_entropy, 0.0001);
+    let mut mymodel = MyModel::new(&mut m);    
+    train(&mut m, &x, &y, &mut mymodel, 20, 128, cross_entropy, 0.0001);
     let out = mymodel.forward(&m, &x);
     println!("Accuracy: {}", accuracy(&y, &out));
 }

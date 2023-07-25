@@ -1,10 +1,10 @@
 use rustml::*;
 use tch::Tensor;
+
 struct MyModel {
     l1: Linear,
     l2: Linear,
 }
-
 
 impl MyModel {
     fn new (mem: &mut Memory) -> MyModel {
@@ -31,7 +31,8 @@ fn main() {
     let mut m = Memory::new();
     let mymodel = MyModel::new(&mut m);
     train(&mut m, &x, &y, &mymodel, 100, 128, cross_entropy, 0.001);
-    let acc = mymodel.forward(&m, &x).accuracy_for_logits(&y);
+    let out = mymodel.forward(&m, &x);
+    let acc = out.accuracy_for_logits(&y);
     println!("Accuracy: {}", acc);
 }
 
